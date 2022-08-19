@@ -11,10 +11,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
 
-    <div className="App">
-      <header> 
-          Github Api test
-      </header>
+    <div className="App"> 
 
       <Search />
 
