@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react' 
+import React, { useState } from 'react' 
 import InputLabel from '@mui/material/InputLabel'; 
 import * as Styled from './Search.Styled'   
 import axios from "axios"; 
-import { Button, Typography } from '@mui/material';
+import {Typography} from '@mui/material';
  
 export function Search() {
     const [user, setUser] = useState("");
@@ -11,9 +11,7 @@ export function Search() {
     const [listRepos, setListRepos] = useState(); 
     const [listBranchs, setListBranchs] = useState(); 
     const [listCommits, setListCommits] = useState(); 
- 
-       
- 
+  
     const handleChange = (event) => {
         setRepo(false)
         setBranch(false)
@@ -28,13 +26,10 @@ export function Search() {
             },
             auth: {
                 username: user, 
-            }
+            }})
+            .then((response) => { 
+                setListRepos(response.data);  
             })
-            .then(function (response) { 
-                setListRepos(response.data) 
-                console.log("repos" ,response.data);
-            })  
-
     }; 
 
     const onClickRepo = (event) => { 
@@ -57,9 +52,8 @@ export function Search() {
             .catch(function (error) { 
                 console.log(error);
             }); 
-    };  
+    };   
 
- 
     const onClickBranch = (event) => { 
         setBranch(event.target.value)
         axios({
@@ -71,8 +65,7 @@ export function Search() {
             },
             auth: {
                 username: user, 
-            }
-            })
+            }})
             .then(function (response) { 
                 setListCommits(response.data) 
                 console.log("Commits" ,response.data);
@@ -84,81 +77,45 @@ export function Search() {
 
     return (
     <Styled.Wrapper>    
-        <Styled.FormControl variant="standard">
-            <InputLabel htmlFor="input-with-icon-adornment">
+        <Styled.FormControl>
+            <InputLabel>
                 Usuário github
             </InputLabel>
-            <Styled.Input
-                value={user} 
-                onChange={handleChange}
-                id="input-with-icon-adornment" 
-            /> 
-        </Styled.FormControl>
- 
+            <Styled.Input value={user} onChange={handleChange}/> 
+        </Styled.FormControl> 
+
         <Styled.WrapperLists>
         <Styled.List>
         {user !== "" && `Repositorios by ${user}:`}
-            {listRepos?.map((i) => {
+            {repo && listRepos?.map((i) => {
                 return (    
                     <Styled.Card>
                      <Typography variant="h6">{i.name}</Typography> 
-                     <Button 
-                     size="small" 
-                     value={i.name} 
-                     onClick={onClickRepo}
-                     style={{
-                        borderRadius: 35,
-                        backgroundColor: "#C7CBC490",
-                        color: "#010101",
-                        padding: "2px 6px",
-                        fontSize: "10px"
-                    }}>
-                        ver branchs</Button> 
+                     <Styled.Button value={i.name} onClick={onClickRepo}>ver branchs</Styled.Button> 
                     </Styled.Card>
-                )
-            })}                
+                )})}                
         </Styled.List> 
         <Styled.List>
-        {repo && `Branchs do ${repo}:`} 
-        {listBranchs?.map((i) => {
-                return (<>
+        {branch && `Branchs:`} 
+        {branch && listBranchs?.map((i) => {
+                return ( 
                   <Styled.Card>
-                  <Typography variant="h6">{i.name}</Typography> 
-                     <Button
-                     style={{
-                        borderRadius: 35,
-                        backgroundColor: "#C7CBC490",
-                        color: "#010101",
-                        padding: "2px 6px",
-                        fontSize: "10px"
-                    }}
-                      size="small" 
-                      value={i.name} 
-                      onClick={onClickBranch}>
-                        ver commits
-                        </Button> 
+                      <Typography variant="h6">{i.name}</Typography> 
+                      <Styled.Button value={i.name} onClick={onClickBranch}>Commits</Styled.Button> 
                     </Styled.Card>
-                    </>)
-            })}             
+                )})}             
         </Styled.List> 
         <Styled.List>
         {branch && `Commits:`} 
-        {listCommits?.map((i) => {
-                return  (<>
-                    <Styled.Card>
-                        
-                       <Typography variant="h6">  </Typography> 
+        {branch && listCommits?.map((i) => {
+                return  (
+                    <Styled.Card>  
                        <Typography variant="p">Mensagem: {i.commit.message}</Typography>
-                       <Typography variant="p">SHA: {i.sha}</Typography>
-                       </Styled.Card>
-                      </>)
-               
-            })}              
+                       <Typography variant="p">SHA Commit: {i.sha}</Typography>
+                    </Styled.Card>
+                )})}              
         </Styled.List> 
         </Styled.WrapperLists>
-            
-
-           
   </Styled.Wrapper> 
   )
 }

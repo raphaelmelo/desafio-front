@@ -1,17 +1,17 @@
 import Styled from 'styled-components'
-import {Input as InputMui, Card as CardMui, List as ListMui , FormControl as FormControlMui } from '@mui/material';
+import {Input as InputMui, Button as ButtonMui, Card as CardMui, List as ListMui , FormControl as FormControlMui } from '@mui/material';
  
 
 export const Wrapper = Styled.div`
      width: 100vw; 
-     min-height: 100vh;
+     min-height: calc(100vh - 30px);
      height: 100%;
     display:flex;
     align-items: center;
    
     flex-direction:column;
     background: #E0C9A6;
-    padding: 30px 0 0 0 ;
+    padding-top: 30px  ;
 
 `;
 export const FormControl = Styled(FormControlMui)`
@@ -57,6 +57,17 @@ export const Card = Styled.div`
     gap: 0px 5px;  
     align-items: center; 
     justify-content:center;
+    
+
+   
+`;
+ 
+export const Button = Styled(ButtonMui)`
+    border-radius: 35px;
+    background:#C7CBC490;
+    color: "#010101";
+    padding: 2px 6px;
+    font-size: 10px;
     
 
    

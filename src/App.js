@@ -11,10 +11,8 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
 
-    <div className="App"> 
-
-      <Search />
-
+    <div className="App">  
+      <Search /> 
     </div>
     </QueryClientProvider>
 
